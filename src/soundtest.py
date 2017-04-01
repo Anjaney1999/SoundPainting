@@ -46,5 +46,5 @@ while True:
 			vertical_now = hand_now.palm_position.y
 			vertical_before = hand_before.palm_position.y
 			diff = vertical_before - vertical_now
-			if diff > 300:
+			if diff > 100:
 				print 'shit'
