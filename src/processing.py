@@ -5,29 +5,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(src_dir, arch_dir)))
 import Leap
 import math
 
-STAGE_START = 0
-STAGE_COMMAND = 1
-STAGE_SEND = 2
-
-controller = Leap.Controller()
-controller.enable_gesture(Leap.Gesture.TYPE_CIRCLE)
-controller.enable_gesture(Leap.Gesture.TYPE_SCREEN_TAP)
-controller.enable_gesture(Leap.Gesture.TYPE_SWIPE)
-controller.enable_gesture(Leap.Gesture.TYPE_KEY_TAP)
-
-controller.config.set("Gesture.Circle.MinRadius", 10.0)
-controller.config.set("Gesture.Circle.MinArc", .5)
-controller.config.set("Gesture.Swipe.MinLength", 200.0)
-controller.config.set("Gesture.Swipe.MinVelocity", 750)
-controller.config.set("Gesture.KeyTap.MinDownVelocity", 40.0)
-controller.config.set("Gesture.KeyTap.HistorySeconds", .2)
-controller.config.set("Gesture.KeyTap.MinDistance", 1.0)
-controller.config.set("Gesture.ScreenTap.MinForwardVelocity", 30.0)
-controller.config.set("Gesture.ScreenTap.HistorySeconds", .5)
-controller.config.set("Gesture.ScreenTap.MinDistance", 1.0)
-controller.config.save()
-
-
 def stageStart(frame, previousFrame):
 	if(frame.hands.is_empty == False) and (previousFrame.hands.is_empty):
 		all_hands = frame.hands
@@ -152,6 +129,6 @@ righthandID = 0
 lefthandID = 0
 stage = STAGE_START
 while True:
-	frame = controller.frame()
 	previousFrame = controller.frame(60)
-
+	frame = controller.frame()
+	
