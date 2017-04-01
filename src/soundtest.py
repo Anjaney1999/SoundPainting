@@ -28,9 +28,9 @@ controller.config.save()
 
 righthandID = 0
 lefthandID = 0
+previousFrame = controller.frame()	
 while True:
 	frame = controller.frame()
-	previousFrame = controller.frame(60)
 	if frame.hands.is_empty or previousFrame.hands.is_empty:
 		pass
 	else:
@@ -48,3 +48,4 @@ while True:
 			diff = vertical_before - vertical_now
 			if diff > 300:
 				print 'shit'
+		previousFrame = controller.frame()
