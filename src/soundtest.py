@@ -29,7 +29,7 @@ controller.config.save()
 righthandID = 0
 lefthandID = 0
 while True:
-	previousFrame = controller.frame(0)
+	previousFrame = controller.frame()
 	time.sleep(0.05)
 	frame = controller.frame()
 	if frame.hands.is_empty or previousFrame.hands.is_empty:
@@ -47,5 +47,5 @@ while True:
 			vertical_now = hand_now.palm_position.y
 			vertical_before = hand_before.palm_position.y
 			diff = vertical_before - vertical_now
-			if diff > 200:
+			if diff > 100:
 				print 'shit'
