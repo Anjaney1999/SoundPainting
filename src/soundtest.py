@@ -28,10 +28,9 @@ controller.config.save()
 
 righthandID = 0
 lefthandID = 0
-
 while True:
-	previousFrame = controller.frame(60)
 	frame = controller.frame()
+	previousFrame = controller.frame(60)
 	if frame.hands.is_empty or previousFrame.hands.is_empty:
 		pass
 	else:
