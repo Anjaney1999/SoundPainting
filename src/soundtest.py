@@ -32,13 +32,13 @@ while True:
 	frame = controller.frame()
 	previousFrame = controller.frame(1)
 	if frame.hands.is_empty or previousFrame.hands.is_empty:
-		pass
+		continue
 	else:
 		all_hands_now = frame.hands
 		all_hands_start = previousFrame.hands
 
 		if(len(all_hands_now) >= 2) or (len(all_hands_start) >=2):
-			pass
+			continue
 		else:
 			hand_now = all_hands_now.rightmost
 			hand_before = all_hands_start.rightmost
