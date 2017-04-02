@@ -29,6 +29,7 @@ controller.config.save()
 righthandID = 0
 lefthandID = 0
 while True:
+<<<<<<< HEAD
 	#previousFrame = controller.frame()
 	#time.sleep(0.05)
 	frame = controller.frame()
@@ -89,3 +90,23 @@ while True:
     
       
 			
+=======
+	previousFrame = controller.frame()
+	time.sleep(0.2)
+	frame = controller.frame()
+	if frame.hands.is_empty:
+		continue
+	else:
+		all_hands_now = frame.hands
+
+		if len(all_hands_now) < 2:
+			continue
+		else:
+			righthand_now = all_hands_now.rightmost
+			lefthand_now = all_hands_now.leftmost
+			rightdir = righthand_now.direction
+			leftdir = lefthand_now.direction
+
+			print rightdir.pitch
+			print leftdir.pitch
+>>>>>>> dd1ebc2fd87a9f7df8daee53ec6c35b923e3d7df

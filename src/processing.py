@@ -57,6 +57,7 @@ def stageCommand(frame, previousFrame):
 							command = 'heldnotemid'
 						elif x2 < average_vertical and average_vertical < y2:
 							command = 'heldnotehigh'
+					if gesture.type is Leap.Gesture.TYPE_CIRCLE:
 
 					elif gesture.type == Leap.Gesture.TYPE_KEY_TAP:
 						command = 'pointilism'
@@ -66,8 +67,6 @@ def stageCommand(frame, previousFrame):
 				command = 'Stab'
 			elif checkMinimal(frame, previousFrame) == True:
 				command = 'minimalism'
-			elif checkFish(frame, previousFrame) == True:
-				command = 'Fish'
 			elif checkImprov(frame, previousFrame) == True:
 				command = 'Improvise'
 			elif checkAirSounds(frame, previousFrame) == True:
@@ -76,20 +75,60 @@ def stageCommand(frame, previousFrame):
 				command = 'Whistle'
 			elif checkAnnuler(frame, previousFrame) == True:
 				command = 'Stop all'
-			elif checkRaise(frame, previousFrame) == True:
+			elif checkRaise(frame, previousFrame) != None:
 				command = 'Raise/Decrease volume'
 			elif checkSpeed(frame, previousFrame) == True:
 				command = 'Raise/Decrease tempo'
 
 def checkStab(frame, previousFrame):
-def checkFish(frame, previousFrame):
-def checkImprov(frame, previousFrame):
-def checkAirSounds(frame, previousFrame):
-def checkWhistle(frame, previousFrame):
-def checkAnnuler(frame, previousFrame):
-def checkRaise(frame, previousFrame):
-def checkSpeed(frame, previousFrame):
+	if frame.hands.is_empty or previousFrame.hands.is_empty:
+		return False
+	else:
+		all_hands_now = frame.hands
+		all_hands_start = previousFrame.hands
 
+		if(len(all_hands_now) >= 2) or (len(all_hands_start) >=2):
+			return False
+		else:
+			hand_now = all_hands_now.rightmost
+			hand_before = all_hands_start.rightmost
+
+			vertical_now = findVertical(hand_now)
+			vertical_before = findVertical(hand_before)
+			diff = vertical_before - vertical_now
+			if diff > 70:
+				return True
+
+def checkImprov(frame, previousFrame):
+
+def checkAirSounds(frame, previousFrame):
+
+def checkWhistle(frame, previousFrame):
+
+def checkAnnuler(frame, previousFrame):
+
+def checkRaise(frame, previousFrame):
+	if frame.hands.is_empty or previousFrame.hands.is_empty:
+		return None
+	else:
+		all_hands_now = frame.hands
+		all_hands_start = previousFrame.hands
+
+		if(len(all_hands_now < 2) or (len(all_hands_start) < 2)):
+			return None
+		else:
+			hand_now = all_hands.rightmost
+			hand_before = all_hands_start.rightmost
+			vertical_now = findVertical(hand_now)
+			vertical_before = findVertical(hand_before)
+
+			diff = vertical_before - vertical_now
+			if diff < 0:
+				return 'Raise volume'
+			elif diff > 0:
+				return 'Lower volume'
+def checkSpeed(frame, previousFrame):
+	
 def findVertical(hand):
 	vertical = hand.palm_position.y
 	if vertical >= 600:
@@ -129,6 +168,7 @@ righthandID = 0
 lefthandID = 0
 stage = STAGE_START
 while True:
-	previousFrame = controller.frame(60)
+	previousFrame = controller.frame()
+	time.sleep(0.2)
 	frame = controller.frame()
-	
+
