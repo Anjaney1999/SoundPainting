@@ -35,15 +35,37 @@ while True:
 	if frame.hands.is_empty:
 		continue
 	else:
-		all_hands_now = frame.hands
-
-		if len(all_hands_now) < 2:
+		hands = frame.hands
+		if (len(hands) < 2):
 			continue
 		else:
-			righthand_now = all_hands_now.rightmost
-			lefthand_now = all_hands_now.leftmost
-			rightdir = righthand_now.direction
-			leftdir = lefthand_now.direction
-
-			print rightdir.pitch
-			print leftdir.pitch
+			right_hand = hands.rightmost
+			left_hand = hands.leftmost
+			for finger in right_hand.fingers:
+				if finger.type == 0:
+					if finger.is_extended:
+						thumb_pos1 = finger.tip_position
+						print thumb_pos1
+					else:
+						pass
+				elif finger.type == 1:
+					if finger.is_extended:
+						index_pos1 = finger.tip_position
+						print index_pos1
+					else:
+						pass
+			for finger in left_hand.fingers:
+				if finger.type == 0:
+					if finger.is_extended:
+						thumb_pos2 = finger.tip_position
+						print thumb_pos2
+					else:
+						pass
+				elif finger.type == 1:
+					if finger.is_extended:
+						index_pos2 = finger.tip_position
+						print index_pos2
+					else:
+						pass
+			if(thumb_pos1.distance_to(thumb_pos2) <= 20 and index_pos1.distance_to(index_pos2) <= 20):
+				print 'Improvise'
