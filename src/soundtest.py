@@ -29,68 +29,6 @@ controller.config.save()
 righthandID = 0
 lefthandID = 0
 while True:
-<<<<<<< HEAD
-	#previousFrame = controller.frame()
-	#time.sleep(0.05)
-	frame = controller.frame()
-
-  all_hands = frame.hands
-  righthand = all_hands.rightmost
-    
-  pointables = righthand.pointables
-  fingers = righthand.fingers
-
-  index_finger_list1 = righthand.fingers.finger_type(1)
-  index_finger1 = index_finger_list1[0]
-
-  tip1 = index_finger1.tip_position
-
-  lefthand = all_hands.leftmost
-  pointables = lefthand.pointables
-  fingers = lefthand.fingers
-
-  index_finger_list2 = lefthand.fingers.finger_type(1)
-  index_finger2 = index_finger_list2[0]
-
-  tip2 = index_finger2.tip_position
-
-  thumb_list1 = righthand.fingers.finger_type(1)
-  thumb_1 = thumb_list1[0]
-
-  tipThumb1 = thumb_1.tip_position
-
-  thumb_list2 = lefthand.fingers.finger_type(1)
-  thumb_2 = thumb_list2[0]
-
-  tipThumb2 = thumb_2.tip_position
-
-  if(tip1 == tip2 and tipThumb1 == tipThumb2)
-    print "Meeting"
-
-
-  '''
-  if frame.hands.is_empty or previousFrame.hands.is_empty:
-    continue
-  else:
-    all_hands_now = frame.hands
-    all_hands_start = previousFrame.hands
-
-    if(len(all_hands_now) >= 2) or (len(all_hands_start) >=2):
-      continue
-    else:
-      hand_now = all_hands_now.rightmost
-      hand_before = all_hands_start.rightmost
-
-      vertical_now = hand_now.palm_position.y
-      vertical_before = hand_before.palm_position.y
-      diff = vertical_before - vertical_now
-      if diff > 100:
-        print 'shit'
-  '''       
-    
-      
-			
-=======
 	previousFrame = controller.frame()
 	time.sleep(0.2)
 	frame = controller.frame()
@@ -98,15 +36,15 @@ while True:
 		continue
 	else:
 		all_hands_now = frame.hands
-
-		if len(all_hands_now) < 2:
+		all_hands_start = previousFrame.hands
+		if(len(all_hands_now) >= 2) or (len(all_hands_start) >=2):
 			continue
 		else:
-			righthand_now = all_hands_now.rightmost
-			lefthand_now = all_hands_now.leftmost
-			rightdir = righthand_now.direction
-			leftdir = lefthand_now.direction
+			hand_now = all_hands_now.rightmost
+			hand_before = all_hands_start.rightmost
 
-			print rightdir.pitch
-			print leftdir.pitch
->>>>>>> dd1ebc2fd87a9f7df8daee53ec6c35b923e3d7df
+			vertical_now = hand_now.palm_position.y
+			vertical_before = hand_before.palm_position.y
+			diff = vertical_before - vertical_now
+			if diff > 70:
+				print 'shit'
