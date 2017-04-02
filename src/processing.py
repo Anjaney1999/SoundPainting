@@ -38,6 +38,7 @@ class LeapMotionListener(Leap.Listener):
 		frame = controller.frame()
 		previousFrame = controller.frame(10)
 
+
 		if self.instrumentStageDone == False:
 			self.global_section = self.instrumentStageStart(frame,previousFrame)
 			if self.global_section != None:
@@ -112,10 +113,10 @@ class LeapMotionListener(Leap.Listener):
 							command = 'pointilism'
 				if self.checkImprov(frame, previousFrame) != None:
 					command = 'Improvise'
-				return command
+			return command
 
 	def checkStab(self, frame, previousFrame):
-		if frame.hands.is_empty or previousFrame.hands.is_empty:
+		if frame.hands.is_empty:
 			return False
 		else:
 			all_hands_now = frame.hands
@@ -126,11 +127,13 @@ class LeapMotionListener(Leap.Listener):
 			else:
 				hand_now = all_hands_now.rightmost
 				hand_before = all_hands_start.rightmost
-
-				vertical_now = self.findVertical(hand_now)
-				vertical_before = self.findVertical(hand_before)
+				for finger in hand_now.fingers:
+					if finger.is_extended:
+						return False
+				vertical_now = hand_now.palm_position.y
+				vertical_before = hand_before.palm_position.y
 				diff = vertical_before - vertical_now
-				if diff > 20:
+				if diff > 100:
 					return True
 				else:
 					return False
@@ -188,9 +191,9 @@ class LeapMotionListener(Leap.Listener):
 				vertical_before = self.findVertical(hand_before)
 
 				diff = vertical_before - vertical_now
-				if diff < -50:
+				if diff < -100:
 					return 'Raise volume'
-				elif diff > 50:
+				elif diff > 100:
 					return 'Lower volume'
 
 
