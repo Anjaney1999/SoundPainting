@@ -28,53 +28,46 @@ controller.enable_gesture(Leap.Gesture.TYPE_SWIPE)
 controller.config.set("Gesture.Swipe.MinLength", 30.0)
 controller.config.set("Gesture.Swipe.MinVelocity", 150)
 controller.config.save()
-oldframe = controller.frame()
-while (True):
-	frame = controller.frame()
-    #if the sensor can detect the hands
-	if (frame.hands.is_empty == False):
-		all_hands = frame.hands
-        #if only 1 hand is present
-		if (len(all_hands) < 2):
-			righthand = all_hands.rightmost
-			twohand = False
-			print '1 hand'
-        #the leap motion can only detect one hand
-		else:
-			righthand = all_hands.rightmost
-			lefthand = all_hands.leftmost
-			twohand = True
-			print '2 hands'
-        
-        #update the gesture motion everytime, as the interface will analyse
-        #different frames to anticipate movements made by a person
-		for gesture in righthand.frame.gestures(oldframe):
-			if gesture.state is Leap.Gesture.STATE_START:
-				pass
-			elif gesture.state is Leap.Gesture.STATE_UPDATE:
-				pass
-			elif gesture.state is Leap.Gesture.STATE_STOP:
-				if (gesture.type == Leap.Gesture.TYPE_SWIPE):
-					swipe = Leap.SwipeGesture(gesture)
-					print swipe.speed
+righthand1 = 0
 
-			else:
-				print 'nothing much...'
-		print '\n\n'
-        
-        #this part checks for the utilisation of the index and thumb
-		if (twohand == True):
-			print 'there is a left hand!'
-			if not (lefthand.fingers.is_empty):
-				for finger in lefthand.fingers:
-					if (finger.is_extended == True):
-						if (finger.type == Leap.Finger.TYPE_INDEX):
-							print 'index is up'
-						elif (finger.type == Leap.Finger.TYPE_THUMB):
-							print 'thumb is up'
-		oldframe = frame
-        #refreshes every 25ms
-		time.sleep(0.025)
-		print '\n\n'
+while True:
+  #previousFrame = controller.frame()
+  #time.sleep(0.05)
+  frame = controller.frame()
+  all_hands = frame.hands
+  righthand = all_hands.rightmost
+          
+  pointables = righthand.pointables
+  fingers = righthand.fingers
+
+  index_finger_list1 = righthand.fingers.finger_type(1)
+  index_finger1 = index_finger_list1[0]
+
+  tip1 = index_finger1.tip_position
+
+  lefthand = all_hands.leftmost
+  pointables = lefthand.pointables
+  fingers = lefthand.fingers
+
+  index_finger_list2 = lefthand.fingers.finger_type(1)
+  index_finger2 = index_finger_list2[0]
+
+  tip2 = index_finger2.tip_position
+
+  thumb_list1 = righthand.fingers.finger_type(0)
+  thumb_1 = thumb_list1[0]
+
+  tipThumb1 = thumb_1.tip_position
+
+  thumb_list2 = lefthand.fingers.finger_type(0)
+  thumb_2 = thumb_list2[0]
+
+  tipThumb2 = thumb_2.tip_position
+  if(tip1.x > 0 or tip1.y > 0 or tip1.z > 0 and tip2.x > 0 or tip2.y > 0 or tip2.z > 0 and tipThumb1.x > 0 or tipThumb1.y > 0 or tipThumb1.z > 0 and tipThumb2.x > 0 or tipThumb2.y > 0 or tipThumb2.z > 0):
+    if(tip1.distance_to(tip2) <= 10 and tipThumb1.distance_to(tipThumb2) <= 10):
+      print "Meeting"
+
+  print tip1 ,",", tip2
+  time.sleep(2)     
 
 
